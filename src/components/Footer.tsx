@@ -61,7 +61,7 @@ const Footer = () => {
               <ul className="space-y-2">
                 <li>
                   <Link
-                    href="/collections/men"
+                    href="/styles?category=Men"
                     className="text-gray-400 transition-colors duration-300 hover:text-white"
                   >
                     Men
@@ -69,7 +69,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/collections/women"
+                    href="/styles?category=Women"
                     className="text-gray-400 transition-colors duration-300 hover:text-white"
                   >
                     Women
@@ -77,7 +77,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/collections/family"
+                    href="/styles?category=Family"
                     className="text-gray-400 transition-colors duration-300 hover:text-white"
                   >
                     Family
@@ -85,7 +85,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <Link
-                    href="/collections/kids"
+                    href="/styles?category=Kids"
                     className="text-gray-400 transition-colors duration-300 hover:text-white"
                   >
                     Kids

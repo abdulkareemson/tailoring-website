@@ -1,5 +1,3 @@
-// path: src/app/components/StyleCard.tsx
-
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,11 +6,10 @@ interface StyleCardProps {
   image?: string | null;
   title?: string | null;
   price?: number | null;
-  slug?: string | null; // Slug for linking to style details
+  slug: string; // ✅ Make slug required
 }
 
 export default function StyleCard({
-  id,
   image,
   title,
   price,
@@ -22,10 +19,7 @@ export default function StyleCard({
 
   return (
     <Link href={linkPath} className="block">
-      <div
-        key={id}
-        className="group cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-xl transform transition-all duration-300 hover:scale-[95%] active:scale-[95%]"
-      >
+      <div className="group cursor-pointer rounded-lg overflow-hidden shadow-md hover:shadow-xl transform transition-all duration-300 hover:scale-[95%] active:scale-[95%]">
         {/* Image Section */}
         <div className="aspect-w-1 aspect-h-1 overflow-hidden">
           {image && (
