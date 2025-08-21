@@ -1,103 +1,114 @@
-import Image from "next/image";
+// path: src/app/page.tsx
+import { client } from "../../tina/__generated__/client";
+import {
+  FashionStyleConnection,
+  FashionStyle,
+  ServicesConnection,
+} from "../../tina/__generated__/types";
+import CategorySection from "../components/CategorySection";
+import HeroSlider from "@/components/HeroSlider";
+import ServiceCarousel from "@/components/ServiceCarousel";
 
-export default function Home() {
+// A helper function to shuffle an array randomly using a generic type
+function shuffleArray<T>(array: T[]): T[] {
+  const newArray = [...array];
+  for (let i = newArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+  }
+  return newArray;
+}
+
+export default async function HomePage() {
+  const styles = await client.queries.fashionStyleConnection();
+  const services = await client.queries.servicesConnection();
+
+  const categories: string[] = [
+    "Men",
+    "Women",
+    "Family",
+    "Kids",
+    "Kaftans",
+    "Agbada",
+  ];
+
+  const fashionStyles = styles.data
+    .fashionStyleConnection as FashionStyleConnection;
+  const servicesData = (services.data.servicesConnection as ServicesConnection)
+    .edges;
+
+  // Helper function to filter and randomly select styles by category
+  function getStylesByCategory(
+    category: string,
+    limit: number
+  ): FashionStyle[] {
+    // 1. Filter styles by category
+    const filteredStyles =
+      fashionStyles.edges
+        ?.filter((edge) => edge?.node?.category?.includes(category))
+        .map((edge) => edge?.node as FashionStyle) || [];
+
+    // 2. Shuffle the filtered styles randomly
+    const shuffledStyles = shuffleArray(filteredStyles);
+
+    // 3. Return the first 'limit' number of styles from the shuffled array
+    return shuffledStyles.slice(0, limit);
+  }
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <>
+      {/* Hero Section */}
+      <HeroSlider />
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+      <main className="min-h-screen">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          {/* Welcome Section */}
+          <div className="py-20 text-center">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              A.A Mayaki Stiches
+            </h1>
+            <p className="text-xl text-gray-600">
+              Your trusted source for bespoke designs and quality craftsmanship.{" "}
+              <br />
+              At A.A Mayaki Stiches, we blend traditional elegance with modern
+              sophistication to create unique and stunning garments. We
+              specialize in custom-made attires for men, women, and children,
+              with a particular focus on traditional West African wear like
+              Kaftans and Agbada. Our commitment to using high-quality fabrics
+              and meticulous attention to detail ensures every piece is a work
+              of art. We believe that clothing is a form of personal expression.
+            </p>
+            <p className="pt-5 text-xl text-gray-600">
+              Discover the difference that expert tailoring and a passion for
+              fashion can make.
+            </p>
+          </div>
+
+          {/* Explore Our Collections */}
+          <div className="py-3">
+            <h2 className="text-3xl font-bold text-gray-900 mb-5 text-center">
+              Explore Our Collections
+            </h2>
+            {categories.map((category: string) => (
+              <CategorySection
+                key={category}
+                category={category}
+                styles={getStylesByCategory(category, 5)}
+              />
+            ))}
+          </div>
+
+          {/* Services Offered */}
+          {servicesData && servicesData.length > 0 && (
+            <div className="py-12">
+              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                Services Offered
+              </h2>
+              <ServiceCarousel services={servicesData} />
+            </div>
+          )}
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
-    </div>
+    </>
   );
 }
