@@ -1,8 +1,9 @@
 // path: src/app/styles/[slug]/StyleContent.tsx
 "use client";
 
+import { useState } from "react";
 import Image from "next/image";
-import { FaWhatsapp } from "react-icons/fa";
+import { HiOutlineChatAlt } from "react-icons/hi";
 import { FashionStyle } from "../../../../tina/__generated__/types";
 
 interface StyleContentProps {
@@ -10,55 +11,96 @@ interface StyleContentProps {
 }
 
 export default function StyleContent({ style }: StyleContentProps) {
-  // Removed the useState for selectedSize as it's no longer needed
-  // const [selectedSize, setSelectedSize] = useState<number | null>(null);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
-  const handleChat = () => {
-    // The message no longer includes any size chart details
-    const message = `I am interested in the "${style.title}" design.\n\nI would like to discuss a custom order.`;
-    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
-    window.open(whatsappUrl, "_blank");
-  };
+  // ✅ Your actual WhatsApp number
+  const phoneNumber = "2347014125050";
+  const message = `Hello, I'm interested in this style: "${style.title}". Can you tell me more about it? (Price: ₦${style.price})`;
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappLink = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 
   return (
-    <div className="md:flex md:space-x-8">
-      {/* Left Section: Image */}
-      <div className="md:w-1/2">
-        {style.image && (
-          <Image
-            src={style.image}
-            alt={style.title || "Fashion Style"}
-            width={600}
-            height={800}
-            layout="responsive"
-            className="rounded-lg shadow-lg"
-          />
-        )}
+    <>
+      <div className="container mx-auto px-4 py-12 min-h-screen">
+        <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+          {/* Left column: Large Image with Click Handler */}
+          <div className="lg:w-1/2 flex justify-center">
+            {style.image && (
+              <div
+                className="relative w-full max-w-lg aspect-square rounded-lg overflow-hidden shadow-lg cursor-pointer"
+                onClick={() => setIsLightboxOpen(true)}
+              >
+                <Image
+                  src={style.image}
+                  alt={style.title || "Style Image"}
+                  fill
+                  className="object-cover object-center"
+                  priority
+                />
+              </div>
+            )}
+          </div>
+
+          {/* Right column: Details and Chat Button (Original Layout) */}
+          <div className="lg:w-1/2 flex flex-col justify-start p-4">
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              {style.title}
+            </h1>
+            <p className="text-xl font-semibold text-gray-600 mb-4">
+              ₦{style.price}
+            </p>
+
+            {style.description && (
+              <div className="border-t-3 border-green-600 pt-6 mt-6">
+                <h2 className="text-2xl font-semibold text-gray-900 mb-2">
+                  Description
+                </h2>
+                <p className="text-gray-700 leading-relaxed">
+                  {style.description}
+                </p>
+              </div>
+            )}
+
+            <div className="mt-8">
+              <a
+                href={whatsappLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center w-full lg:w-auto px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 transition-colors"
+              >
+                <HiOutlineChatAlt className="w-6 h-6 mr-2" />
+                Chat Tailor
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
 
-      {/* Right Section: Details */}
-      <div className="md:w-1/2 mt-8 md:mt-0">
-        <h1 className="text-4xl font-extrabold tracking-tight text-gray-900">
-          {style.title}
-        </h1>
-        <p className="mt-4 text-2xl text-gray-900">₦{style.price}</p>
-        <div className="mt-6">
-          <h3 className="text-sm font-medium text-gray-900">Description</h3>
-          <p className="mt-2 text-gray-600">{style.description}</p>
+      {/* Lightbox Modal */}
+      {isLightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-80 p-4"
+          onClick={() => setIsLightboxOpen(false)}
+        >
+          <div className="relative w-full h-full max-w-5xl max-h-[90vh]">
+            <Image
+              src={style.image!}
+              alt={style.title || "Style Image"}
+              fill
+              className="object-contain"
+            />
+            <button
+              className="absolute top-4 right-4 text-white text-3xl font-bold"
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsLightboxOpen(false);
+              }}
+            >
+              &times;
+            </button>
+          </div>
         </div>
-
-        {/* The entire size chart section has been removed */}
-
-        <div className="mt-8 flex justify-center">
-          <button
-            onClick={handleChat}
-            className="flex items-center justify-center rounded-md border border-transparent bg-green-600 px-8 py-3 text-base font-medium text-white hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2"
-          >
-            <FaWhatsapp className="h-5 w-5 mr-2" />
-            Chat Tailor (via WhatsApp)
-          </button>
-        </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
