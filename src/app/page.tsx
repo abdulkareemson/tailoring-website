@@ -8,6 +8,7 @@ import {
 import CategorySection from "../components/CategorySection";
 import HeroSlider from "@/components/HeroSlider";
 import ServiceCarousel from "@/components/ServiceCarousel";
+import FadeInOnScroll from "@/components/FadeInOnScroll";
 
 // A helper function to shuffle an array randomly using a generic type
 function shuffleArray<T>(array: T[]): T[] {
@@ -64,31 +65,40 @@ export default async function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Welcome Section */}
           <div className="py-20 text-center">
-            <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              A.A Mayaki Stiches
-            </h1>
-            <p className="text-xl text-gray-600">
-              Your trusted source for bespoke designs and quality craftsmanship.{" "}
-              <br />
-              At A.A Mayaki Stiches, we blend traditional elegance with modern
-              sophistication to create unique and stunning garments. We
-              specialize in custom-made attires for men, women, and children,
-              with a particular focus on traditional West African wear like
-              Kaftans and Agbada. Our commitment to using high-quality fabrics
-              and meticulous attention to detail ensures every piece is a work
-              of art. We believe that clothing is a form of personal expression.
-            </p>
-            <p className="pt-5 text-xl text-gray-600">
-              Discover the difference that expert tailoring and a passion for
-              fashion can make.
-            </p>
+            <FadeInOnScroll>
+              <h1 className="text-4xl font-bold text-gray-900 mb-4">
+                A.A Mayaki Stiches
+              </h1>
+            </FadeInOnScroll>
+            <FadeInOnScroll delay={200}>
+              <p className="text-xl text-gray-600">
+                Your trusted source for bespoke designs and quality
+                craftsmanship. <br />
+                At A.A Mayaki Stiches, we blend traditional elegance with modern
+                sophistication to create unique and stunning garments. We
+                specialize in custom-made attires for men, women, and children,
+                with a particular focus on traditional West African wear like
+                Kaftans and Agbada. Our commitment to using high-quality fabrics
+                and meticulous attention to detail ensures every piece is a work
+                of art. We believe that clothing is a form of personal
+                expression.
+              </p>
+            </FadeInOnScroll>
+            <FadeInOnScroll delay={400}>
+              <p className="pt-5 text-xl text-gray-600">
+                Discover the difference that expert tailoring and a passion for
+                fashion can make.
+              </p>
+            </FadeInOnScroll>
           </div>
 
           {/* Explore Our Collections */}
           <div className="py-3">
-            <h2 className="text-3xl font-bold text-gray-900 mb-5 text-center">
-              Explore Our Collections
-            </h2>
+            <FadeInOnScroll>
+              <h2 className="text-3xl font-bold text-gray-900 mb-5 text-center">
+                Explore Our Collections
+              </h2>
+            </FadeInOnScroll>
             {categories.map((category: string) => (
               <CategorySection
                 key={category}
@@ -101,10 +111,14 @@ export default async function HomePage() {
           {/* Services Offered */}
           {servicesData && servicesData.length > 0 && (
             <div className="py-12">
-              <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-                Services Offered
-              </h2>
-              <ServiceCarousel services={servicesData} />
+              <FadeInOnScroll>
+                <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
+                  Services Offered
+                </h2>
+              </FadeInOnScroll>
+              <FadeInOnScroll delay={200}>
+                <ServiceCarousel services={servicesData} />
+              </FadeInOnScroll>
             </div>
           )}
         </div>
