@@ -24,7 +24,7 @@ export default function SearchPage() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [endCursor, setEndCursor] = useState<string | undefined>(undefined);
 
-  const pageSize = 6;
+  const pageSize = 20;
 
   // Fetch styles with pagination
   const fetchStyles = useCallback(
