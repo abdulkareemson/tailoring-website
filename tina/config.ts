@@ -1,8 +1,9 @@
 // path: tina/config.ts
 import { defineConfig } from "tinacms";
-import FashionStyle from "./collections/fashionStyle"; // Import the collection from its file
-import Services from "./collections/services"; // Import the collection from its file
+import FashionStyle from "./collections/fashionStyle"; // Import the collection
+import Services from "./collections/services"; // Import the collection
 
+// Determine the branch for Tina Cloud
 const branch =
   process.env.GITHUB_BRANCH ||
   process.env.VERCEL_GIT_COMMIT_REF ||
@@ -11,22 +12,22 @@ const branch =
 
 export default defineConfig({
   branch,
-  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID,
-  token: process.env.TINA_TOKEN,
+  clientId: "3e281db9-477e-4b8e-93f2-b0d2edde0b74", // Your Tina Cloud Client ID
+  token: "", // Optional: leave blank for read-only access
   build: {
-    publicFolder: "public",
-    outputFolder: "admin",
+    publicFolder: "public", // Public folder for images/media
+    outputFolder: "admin", // Tina Cloud admin UI output
   },
   media: {
     tina: {
-      mediaRoot: "",
-      publicFolder: "public",
+      mediaRoot: "", // Media root inside Tina Cloud
+      publicFolder: "public", // Folder to store uploaded media
     },
   },
   schema: {
     collections: [
-      FashionStyle, // Reference the imported collection
-      Services, // Reference the imported collection
+      FashionStyle, // Reference FashionStyle collection
+      Services, // Reference Services collection
     ],
   },
 });
