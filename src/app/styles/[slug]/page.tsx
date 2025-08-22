@@ -4,12 +4,13 @@ import { FashionStyle } from "../../../../tina/__generated__/types";
 import StyleContent from "./StyleContent";
 import Link from "next/link";
 
+// Allow params to be either direct or a promise (Next.js 15 quirk)
+type Params = { slug: string };
 interface StylePageProps {
-  params: { slug: string } | Promise<{ slug: string }>;
+  params: Params | Promise<Params>;
 }
 
 export default async function StylePage({ params }: StylePageProps) {
-  // Await params in Next.js 15+
   const resolvedParams = await params;
   const slug = resolvedParams.slug;
 
