@@ -3,9 +3,9 @@ import FashionStyle from "./collections/fashionStyle";
 import Services from "./collections/services";
 
 export default defineConfig({
-  branch: process.env.TINA_BRANCH || "main", // ✅ use env var or fallback
-  clientId: process.env.TINA_CLIENT_ID!, // ✅ required for Tina Cloud
-  token: process.env.TINA_TOKEN!, // ✅ required for Tina Cloud
+  branch: process.env.TINA_BRANCH || "main", // branch (safe to be private)
+  clientId: process.env.NEXT_PUBLIC_TINA_CLIENT_ID!, // ✅ must be NEXT_PUBLIC
+  token: process.env.TINA_TOKEN!, // ✅ keep private
   build: {
     publicFolder: "public",
     outputFolder: "admin",
