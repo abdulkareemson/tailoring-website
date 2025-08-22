@@ -3,13 +3,14 @@ import FashionStyle from "./collections/fashionStyle";
 import Services from "./collections/services";
 
 export default defineConfig({
-  // No branch, clientId, or token needed for local dev
+  branch: process.env.TINA_BRANCH || "main", // ✅ use env var or fallback
+  clientId: process.env.TINA_CLIENT_ID!, // ✅ required for Tina Cloud
+  token: process.env.TINA_TOKEN!, // ✅ required for Tina Cloud
   build: {
     publicFolder: "public",
     outputFolder: "admin",
   },
   media: {
-    // Filesystem media store
     tina: {
       mediaRoot: "uploads",
       publicFolder: "public",
