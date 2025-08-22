@@ -4,19 +4,19 @@ import { FashionStyle } from "../../../../tina/__generated__/types";
 import StyleContent from "./StyleContent";
 import Link from "next/link";
 
-export default async function StylePage({
-  params,
-}: {
+interface StylePageProps {
   params: { slug: string };
-}) {
-  const { slug } = params;
+}
 
-  // Fetch the data for the specific style based on the slug
+export default async function StylePage({ params }: StylePageProps) {
+  const slug = params.slug; // safe to access directly
+
+  // Fetch the data for the specific style
   const styleData = await client.queries.fashionStyle({
     relativePath: `${slug}.md`,
   });
 
-  const style = styleData.data.fashionStyle as FashionStyle;
+  const style = styleData.data.fashionStyle as FashionStyle | null;
 
   if (!style) {
     return (

@@ -10,11 +10,22 @@ const branch =
   process.env.HEAD ||
   "main";
 
+// Load environment variables, fallback to NEXT_PUBLIC_ for local dev
+const clientId =
+  process.env.TINA_CLIENT_ID || process.env.NEXT_PUBLIC_TINA_CLIENT_ID;
+const token = process.env.TINA_TOKEN;
+
+// Graceful check for missing env vars
+if (!clientId || !token) {
+  throw new Error(
+    "❌ Missing TinaCMS environment variables. Please set TINA_CLIENT_ID (or NEXT_PUBLIC_TINA_CLIENT_ID) and TINA_TOKEN."
+  );
+}
+
 export default defineConfig({
   branch,
-  // Use environment variables instead of hardcoded values
-  clientId: process.env.TINA_CLIENT_ID,
-  token: process.env.TINA_TOKEN,
+  clientId,
+  token,
   build: {
     publicFolder: "public",
     outputFolder: "admin",
