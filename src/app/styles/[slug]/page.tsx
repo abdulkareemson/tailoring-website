@@ -5,11 +5,13 @@ import StyleContent from "./StyleContent";
 import Link from "next/link";
 
 interface StylePageProps {
-  params: { slug: string };
+  params: { slug: string } | Promise<{ slug: string }>;
 }
 
 export default async function StylePage({ params }: StylePageProps) {
-  const slug = params.slug; // safe to access directly
+  // Await params in Next.js 15+
+  const resolvedParams = await params;
+  const slug = resolvedParams.slug;
 
   // Fetch the data for the specific style
   const styleData = await client.queries.fashionStyle({

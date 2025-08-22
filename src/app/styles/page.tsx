@@ -12,16 +12,19 @@ type StyleWithSlug = {
   description: string;
 };
 
-export default async function StylesPage({
-  searchParams,
-}: {
-  searchParams: { category?: string };
-}) {
+interface StylesPageProps {
+  searchParams: { category?: string } | Promise<{ category?: string }>;
+}
+
+export default async function StylesPage({ searchParams }: StylesPageProps) {
+  // ✅ Await searchParams in Next.js 15+
+  const resolvedSearchParams = await searchParams;
+  const filteredCategory = resolvedSearchParams.category;
+
+  // Fetch all styles
   const stylesData = await client.queries.fashionStyleConnection();
   const fashionStyles = stylesData.data
     .fashionStyleConnection as FashionStyleConnection;
-
-  const filteredCategory = searchParams.category;
 
   // Map edges to include slug
   const allStyles: StyleWithSlug[] =
