@@ -1,7 +1,7 @@
 ---
 title: Complete Cover for Muslim Women
 image: /women-styles (5).jpg
-price: 100000
+price: 40000
 category:
   - Women
 description: >-

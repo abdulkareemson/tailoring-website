@@ -28,7 +28,7 @@ export default function FadeInOnScroll({
       {
         root: null,
         rootMargin: "0px",
-        threshold: 0.2, // Adjust this value to change when the animation triggers
+        threshold: 0.2,
       }
     );
 

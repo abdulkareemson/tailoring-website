@@ -4,12 +4,12 @@ import Image from "next/image";
 import { useState } from "react";
 
 const images = [
+  { src: "/images/family-styles-3.jpg", alt: "Family Styles 3" },
   { src: "/images/agbada-men-style-2.jpg", alt: "Agbada Men Style 2" },
   { src: "/images/boy-agbada-1.jpg", alt: "Boy Agbada 1" },
   { src: "/images/agbada-men-style-3.jpg", alt: "Agbada Men Style 3" },
   { src: "/images/boy-agbada-7.jpg", alt: "Boy Agbada 7" },
   { src: "/images/boy-kaftan-1.jpg", alt: "Boy Kaftan 1" },
-  { src: "/images/family-styles-3.jpg", alt: "Family Styles 3" },
   { src: "/images/family-styles-6.jpg", alt: "Family Styles 6" },
   { src: "/images/family-styles-4.jpg", alt: "Family Styles 4" },
   { src: "/images/family-styles-11.jpg", alt: "Family Styles 11" },
